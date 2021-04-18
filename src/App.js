@@ -1,29 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
-import Cousin from './Components/Cousin/Cousin';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
+import Home from './Components/Home/Home';
+import NoMatch from './Components/NoMatch/NoMatch';
+import ShowDetails from './Components/ShowDetails/ShowDetails';
 
 
 function App() {
-  const [cousins,setCousins]= useState([]);
-  useEffect(()=>{
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then(response=>response.json())
-    .then(data=>setCousins(data))
-  },[])
+  
   return (
-    <div>
-      <h2>cousins length : {cousins.length}</h2>
-      {
-        cousins.map(cousin=> <Cousin cousin={cousin}></Cousin>)
-      }
-    </div>
+    <Router>
+      <Switch>
+        <Route path='/home'>
+          <Home/>
+        </Route>
+        <Route exact path='/'>
+          <Home/>
+        </Route>
+        <Route path='/cousin/:cousinId'>
+          <ShowDetails></ShowDetails>
+        </Route>
+        <Route path='*'>
+          <NoMatch></NoMatch>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
